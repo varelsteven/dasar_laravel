@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ClassRoom;
 use App\Models\student;
 
 class StudentController extends Controller
@@ -18,7 +19,7 @@ class StudentController extends Controller
        $student = student::with('class')->get();
        return view('student', compact('student'));
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -26,7 +27,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        $class= ClassRoom::all();
+        return view('form', compact( 'class'));
     }
 
     /**
@@ -37,7 +39,19 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'umur' => 'required',
+            'alamat' =>'required',
+            'jenis_kelamin' => 'required',
+            'class_id' => 'required',
+        ]);
+
+        $input = $request->all();
+        student::create($input);
+
+        return redirect('/student')
+                ->with('success','Student data created successfully');
     }
 
     /**
@@ -48,7 +62,8 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $student = student::findOrFail($id);
+        return view('detail', compact('student'));
     }
 
     /**
@@ -59,7 +74,9 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $class= ClassRoom::all();
+        $student = student::findOrFail($id);
+        return view('edit', compact('student', 'class'));
     }
 
     /**
@@ -71,7 +88,20 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'umur' => 'required',
+            'alamat' =>'required',
+            'jenis_kelamin' => 'required',
+            'class_id' => 'required',
+        ]);
+
+         $student = student::findOrFail($id);
+        $input = $request->all();
+        $student->update($input);
+
+        return redirect('/student')
+                ->with('success','Student data edit successfully');
     }
 
     /**
@@ -82,6 +112,10 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student = student::findOrFail($id);
+        $student->delete();
+
+        return redirect('/student')
+        ->with('success','Student data deleted successfully');
     }
 }

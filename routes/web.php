@@ -34,7 +34,6 @@ Route::get('/about', function () {
 //     ]);
 // });
 
-Route::get('/siswa',[App\Http\Controllers\StudentController::class,'index']);
 
 Route::get('/asa', function () {
     return view('product');
@@ -63,6 +62,15 @@ Route::get('/update',[pegawaiController::class,'update']);
 Route::get('/destroy',[pegawaiController::class,'destroy']);
 
 
-Route::get('/siswa',[StudentController::class,'index']);
 
 Route::get('/class',[ClassController::class,'index']);
+
+Route::get('/student',[StudentController::class,'index']);
+
+
+Route::get('/student/add',[StudentController::class,'create']);
+Route::post('/student/adds',[StudentController::class,'store']);
+Route::get('/student/edit/{id}',[StudentController::class,'edit']);
+Route::put('/student/up/{id}',[StudentController::class,'update']);
+Route::get('/student/detail/{id}',[StudentController::class,'show']); 
+Route::delete('/student/destroy/{id}',[StudentController::class,'destroy']); 

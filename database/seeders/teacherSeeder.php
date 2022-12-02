@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\student;
 use Faker\Guesser\Name;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,5 +21,9 @@ class teacherSeeder extends Seeder
         ['name' => 'eraldo', 'adress' =>'depok', 'gender'=>'L'],
         ['name' => 'nahla', 'adress' =>'depok', 'gender'=>'P']
         ];
+
+        foreach($data as $item){
+            student::insert()
+        }
     }
 }
